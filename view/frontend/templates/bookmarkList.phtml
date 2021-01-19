@@ -1,0 +1,21 @@
+<?php
+/**
+ * @var Inchoo\ProductBookmark\Block\BookmarkList $block
+ */
+
+?>
+<table class="table">
+    <tbody>
+    <tr>
+        <th><?= $block->escapeHtml(__("ID"))?></th>
+        <th><?= $block->escapeHtml(__("Title"))?></th>
+    </tr>
+    <?php foreach ($block->getBookmarkLists() as $bookmarkList) : ?>
+        <tr>
+            <td><?= $block->escapeHtml($bookmarkList->getId())?></td>
+            <td><?= $block->escapeHtml($bookmarkList->getBookmarkListTitle()) ?></td>
+        </tr>
+
+    <?php endforeach; ?>
+    </tbody>
+</table>
