@@ -46,11 +46,12 @@ class BookmarkList extends Template
 
     public function getBookmarkLists()
     {
-        return $this->bookmarkListFactory
-            ->create()
-            ->getCollection()
-            ->addFieldToFilter(BookmarkListInterface::CUSTOMER_ID, $this->
-            session->getCustomerId());
+        $this->searchCriteriaBuilder->addFilter(BookmarkListInterface::CUSTOMER_ID, $this->session->getCustomerId(),'eq');
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+
+        return $this->bookmarkListRepository->getList($searchCriteria)->getItems();
+
+
     }
 
     public function getNewUrl() {

@@ -5,6 +5,7 @@ namespace Inchoo\ProductBookmark\Model;
 use Inchoo\ProductBookmark\Api\BookmarkListRepositoryInterface;
 use Inchoo\ProductBookmark\Api\Data\BookmarkListInterface;
 use Inchoo\ProductBookmark\Api\Data\BookmarkListSearchResultsInterface;
+use Inchoo\ProductBookmark\Model\ResourceModel\BookmarkList\CollectionFactory;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
@@ -25,7 +26,7 @@ class BookmarkListRepository implements BookmarkListRepositoryInterface
     protected $bookmarkListResource;
 
     /**
-     * @var \Inchoo\ProductBookmark\Model\ResourceModel\BookmarkList\CollectionFactory
+     * @var CollectionFactory
      */
     protected $bookmarkListCollectionFactory;
 
@@ -42,7 +43,7 @@ class BookmarkListRepository implements BookmarkListRepositoryInterface
     public function __construct(
         \Inchoo\ProductBookmark\Api\Data\BookmarkListInterfaceFactory $bookmarkListModelFactory,
         \Inchoo\ProductBookmark\Model\ResourceModel\BookmarkList $bookmarkListResource,
-        \Inchoo\ProductBookmark\Model\ResourceModel\BookmarkList\CollectionFactory $bookmarkListCollectionFactory,
+        CollectionFactory $bookmarkListCollectionFactory,
         \Inchoo\ProductBookmark\Api\Data\BookmarkSearchResultsInterfaceFactory $searchResultFactory,
         CollectionProcessorInterface $collectionProcessor
     )
@@ -86,10 +87,13 @@ class BookmarkListRepository implements BookmarkListRepositoryInterface
 
     public function getList(SearchCriteriaInterface $searchCriteria)
     {
+        /** @var \Inchoo\ProductBookmark\Model\ResourceModel\BookmarkList\Collection $collection */
         $collection = $this->bookmarkListCollectionFactory->create();
+
         $this->collectionProcessor->process($searchCriteria, $collection);
+
         /** @var BookmarkListSearchResultsInterface $searchResults */
-        $searchResults = $this->searchResultsFactory->create();
+        $searchResults = $this->searchResultFactory->create();
         $searchResults->setSearchCriteria($searchCriteria);
         $searchResults->setItems($collection->getItems());
         $searchResults->setTotalCount($collection->getSize());
