@@ -4,7 +4,7 @@
  */
 
 ?>
-
+<?php if (count($block->getBookmarkedProducts()) > 0) :?>
     <table class="table">
         <tbody>
         <tr>
@@ -19,3 +19,4 @@
         <?php endforeach; ?>
         </tbody>
     </table>
+<?php endif;?>

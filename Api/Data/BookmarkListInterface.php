@@ -9,6 +9,7 @@ interface BookmarkListInterface
     const BOOKMARK_LIST_ID = 'bookmark_list_id';
     const BOOKMARK_LIST_TITLE = 'bookmark_list_title';
     const CUSTOMER_ID = 'customer_id';
+    const IS_DELETABLE = 'is_deletable';
 
     /**
      * @return mixed
@@ -25,6 +26,11 @@ interface BookmarkListInterface
      */
     public function getCustomerId();
 
+
+    /**
+     * @return mixed
+     */
+    public function getIsDeletable();
     /**
      * @param $id
      * @return mixed
@@ -42,4 +48,10 @@ interface BookmarkListInterface
      * @return mixed
      */
     public function setCustomerId($customerId);
+
+    /**
+     * @param $isDeletable
+     * @return mixed
+     */
+    public function setIsDeletable($isDeletable);
 }

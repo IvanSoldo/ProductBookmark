@@ -25,6 +25,10 @@ class Delete extends Bookmark
         if (!$bookmarkList) {
             return $this->redirectToList();
         }
+        if ($bookmarkList->getIsDeletable() == 0) {
+            $this->messageManager->addErrorMessage(__('Default list cannot be deleted!'));
+            return $this->redirectToList();
+        }
         $this->bookmarkListRepository->delete($bookmarkList);
         $this->messageManager->addSuccessMessage(__('Bookmark List deleted!'));
 
@@ -37,6 +41,7 @@ class Delete extends Bookmark
         try {
             $customerId = $this->customerSession->getId();
             $bookmarkList = $this->bookmarkListRepository->getById($id);
+
             if ($bookmarkList->getCustomerId() !== $customerId) {
                 $this->messageManager->addErrorMessage(__('Something went wrong!'));
                 return false;
@@ -48,5 +53,4 @@ class Delete extends Bookmark
 
         return $bookmarkList;
     }
-
 }

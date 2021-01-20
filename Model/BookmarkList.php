@@ -27,6 +27,10 @@ class BookmarkList extends AbstractModel implements BookmarkListInterface
     {
         return $this->getData(self::CUSTOMER_ID);
     }
+    public function getIsDeletable()
+    {
+        return $this->getData(self::IS_DELETABLE);
+    }
 
     public function setId($id)
     {
@@ -41,5 +45,10 @@ class BookmarkList extends AbstractModel implements BookmarkListInterface
     public function setCustomerId($customerId)
     {
         return $this->setData(self::CUSTOMER_ID, $customerId);
+    }
+
+    public function setIsDeletable($isDeletable)
+    {
+        return $this->setData(self::IS_DELETABLE, $isDeletable);
     }
 }
