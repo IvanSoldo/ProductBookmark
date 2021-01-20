@@ -1,6 +1,6 @@
 <?php
 /**
- * @var Inchoo\ProductBookmark\Block\BookmarkList $block
+ * @var Inchoo\ProductBookmark\Block\BookmarkList\BookmarkList $block
  */
 
 ?>
@@ -40,6 +40,7 @@
     <tr>
         <th><?= $block->escapeHtml(__("Title"))?></th>
         <th><?= $block->escapeHtml(__("Delete"))?></th>
+        <th><?= $block->escapeHtml(__("Details"))?></th>
     </tr>
     <?php foreach ($block->getBookmarkLists() as $bookmarkList) : ?>
         <tr>
@@ -48,6 +49,12 @@
                 <a href="<?= $block->escapeUrl($block->getDeleteUrl($bookmarkList->getId())); ?>"
                    class="action submit primary">
                     <?= $block->escapeHtml(__('Delete')); ?>
+                </a>
+            </td>
+            <td>
+                <a href="<?= $block->escapeUrl($block->getDetailsUrl($bookmarkList->getId())); ?>"
+                   class="action submit primary">
+                    <?= $block->escapeHtml(__('Details')); ?>
                 </a>
             </td>
         </tr>

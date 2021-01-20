@@ -1,6 +1,6 @@
 <?php
 
-namespace Inchoo\ProductBookmark\Block;
+namespace Inchoo\ProductBookmark\Block\BookmarkList;
 
 use Inchoo\ProductBookmark\Api\BookmarkListRepositoryInterface;
 use Inchoo\ProductBookmark\Api\Data\BookmarkListInterface;
@@ -22,8 +22,6 @@ class BookmarkList extends Template
 
     private $filterBuilder;
 
-    private $bookmarkListFactory;
-
 
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
@@ -31,7 +29,6 @@ class BookmarkList extends Template
         Session $session,
         FilterBuilder $filterBuilder,
         Context $context,
-        \Inchoo\ProductBookmark\Model\BookmarkListFactory $bookmarkListFactory,
         array $data = []
     )
     {
@@ -40,8 +37,6 @@ class BookmarkList extends Template
         $this->session = $session;
         $this->filterBuilder = $filterBuilder;
         parent::__construct($context, $data);
-
-        $this->bookmarkListFactory = $bookmarkListFactory;
     }
 
     public function getBookmarkLists()
@@ -60,5 +55,9 @@ class BookmarkList extends Template
 
     public function getDeleteUrl($id) {
         return $this->getUrl('inchoo_bookmark/bookmarklist/delete', ['id' => $id]);
+    }
+
+    public function getDetailsUrl($id) {
+        return $this->getUrl('inchoo_bookmark/bookmarklist/details', ['id' => $id]);
     }
 }
