@@ -52,4 +52,12 @@ class BookmarkList extends Template
             ->addFieldToFilter(BookmarkListInterface::CUSTOMER_ID, $this->
             session->getCustomerId());
     }
+
+    public function getNewUrl() {
+        return $this->getUrl('inchoo_bookmark/bookmarklist/new');
+    }
+
+    public function getDeleteUrl($id) {
+        return $this->getUrl('inchoo_bookmark/bookmarklist/delete', ['id' => $id]);
+    }
 }

@@ -86,7 +86,6 @@ class BookmarkListRepository implements BookmarkListRepositoryInterface
 
     public function getList(SearchCriteriaInterface $searchCriteria)
     {
-        /** @var \Inchoo\ProductBookmark\Model\ResourceModel\BookmarkList\Collection $collection */
         $collection = $this->bookmarkListCollectionFactory->create();
         $this->collectionProcessor->process($searchCriteria, $collection);
         /** @var BookmarkListSearchResultsInterface $searchResults */

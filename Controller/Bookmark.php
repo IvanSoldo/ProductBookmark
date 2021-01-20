@@ -19,6 +19,12 @@ abstract class Bookmark extends Action
         $this->customerSession = $customerSession;
         parent::__construct($context);
     }
+
+    protected function redirectToList()
+    {
+        return $this->_redirect('inchoo_bookmark/bookmarklist/index');
+    }
+
     public function dispatch(RequestInterface $request)
     {
         if (!$this->customerSession->authenticate()) {

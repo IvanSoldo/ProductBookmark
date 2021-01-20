@@ -4,18 +4,54 @@
  */
 
 ?>
+<h2>Create new Bookmark List</h2>
+<br>
+<form
+    id="form-validate"
+    action="<?= $block->escapeUrl($block->getNewUrl()) ?>"
+    method="post"
+    data-hasrequired="* Required Fields"
+    data-mage-init='{"validation":{}}'>
+    <?php echo $block->getBlockHtml('formkey') ?>
+    <div class="field title required">
+        <label class="label" for="title"><span>
+<?php echo __('Title') ?></span></label>
+        <div class="control">
+            <input
+                id="title"
+                type="text"
+                name="title"
+                data-validate="{required:true}"/>
+        </div>
+    </div>
+    <br>
+    <button type="submit" class="action submit primary">
+        <span><?php echo __('Create List') ?></span>
+    </button>
+
+</form>
+
+<br>
+<br>
+
+<?php if ($block->getBookmarkLists()->getSize() > 0) :?>
 <table class="table">
     <tbody>
     <tr>
-        <th><?= $block->escapeHtml(__("ID"))?></th>
         <th><?= $block->escapeHtml(__("Title"))?></th>
+        <th><?= $block->escapeHtml(__("Delete"))?></th>
     </tr>
     <?php foreach ($block->getBookmarkLists() as $bookmarkList) : ?>
         <tr>
-            <td><?= $block->escapeHtml($bookmarkList->getId())?></td>
             <td><?= $block->escapeHtml($bookmarkList->getBookmarkListTitle()) ?></td>
+            <td>
+                <a href="<?= $block->escapeUrl($block->getDeleteUrl($bookmarkList->getId())); ?>"
+                   class="action submit primary">
+                    <?= $block->escapeHtml(__('Delete')); ?>
+                </a>
+            </td>
         </tr>
-
     <?php endforeach; ?>
     </tbody>
 </table>
+<?php endif;?>
