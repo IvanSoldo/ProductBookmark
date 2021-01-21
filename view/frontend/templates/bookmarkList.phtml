@@ -12,7 +12,7 @@
     method="post"
     data-hasrequired="* Required Fields"
     data-mage-init='{"validation":{}}'>
-    <?php echo $block->getBlockHtml('formkey') ?>
+    <?= $block->getBlockHtml('formkey') ?>
     <div class="field title required">
         <label class="label" for="title"><span>
 <?php echo __('Title') ?></span></label>
@@ -45,11 +45,12 @@
     <?php foreach ($block->getBookmarkLists() as $bookmarkList) : ?>
         <tr>
             <td><?= $block->escapeHtml($bookmarkList->getBookmarkListTitle()) ?></td>
-            <td>
+            <td><?php if ($bookmarkList->getIsDeletable() == 1) :?>
                 <a href="<?= $block->escapeUrl($block->getDeleteUrl($bookmarkList->getId())); ?>"
                    class="action submit primary">
                     <?= $block->escapeHtml(__('Delete')); ?>
                 </a>
+                <?php endif;?>
             </td>
             <td>
                 <a href="<?= $block->escapeUrl($block->getDetailsUrl($bookmarkList->getId())); ?>"

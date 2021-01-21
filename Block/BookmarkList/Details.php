@@ -37,7 +37,9 @@ class Details extends Template
 
     public function getBookmarkedProducts()
     {
-        $this->searchCriteriaBuilder->addFilter(BookmarkInterface::BOOKMARK_LIST_ID, $this->getRequest()->getParam('id'),'eq');
+        $this->searchCriteriaBuilder
+            ->addFilter(BookmarkInterface::BOOKMARK_LIST_ID, $this->getRequest()->getParam('id'),'eq')
+            ->addFilter(BookmarkInterface::WEBSITE_ID, $this->_storeManager->getStore()->getWebsiteId(), 'eq');
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $bookmarks = $this->bookmarkRepository->getList($searchCriteria)->getItems();
         $products = [];

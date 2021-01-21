@@ -22,6 +22,8 @@
         <column name="bookmark_list_id" xsi:type="int" unsigned="true" identity="false" comment="Bookmark List ID" nullable="false"/>
         <column xsi:type="int" name="product_id" padding="10" unsigned="true" nullable="false" identity="false"
                 comment="Product ID"/>
+        <column xsi:type="smallint" name="website_id" padding="5" unsigned="true" nullable="false" identity="false"
+                comment="Website ID"/>
         <column name="created_at" xsi:type="datetime" default="CURRENT_TIMESTAMP"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="bookmark_id"/>
@@ -31,6 +33,9 @@
                     onDelete="CASCADE"/>
         <constraint xsi:type="foreign" referenceId="TMP2" column="product_id"
                     referenceTable="catalog_product_entity" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="TMP3" column="website_id"
+                    referenceTable="store_website" referenceColumn="website_id"
                     onDelete="CASCADE"/>
     </table>
 </schema>

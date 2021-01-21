@@ -9,6 +9,7 @@ interface BookmarkInterface
     const BOOKMARK_ID = 'bookmark_id';
     const BOOKMARK_LIST_ID = 'bookmark_list_id';
     const PRODUCT_ID = 'product_id';
+    const WEBSITE_ID = 'website_id';
 
     /**
      * @return mixed
@@ -25,6 +26,10 @@ interface BookmarkInterface
      */
     public function getProductId();
 
+    /**
+     * @return mixed
+     */
+    public function getWebsiteId();
     /**
      * @param $id
      * @return mixed
@@ -43,4 +48,9 @@ interface BookmarkInterface
      */
     public function setProductId($productId);
 
+    /**
+     * @param $websiteId
+     * @return mixed
+     */
+    public function setWebsiteId($websiteId);
 }

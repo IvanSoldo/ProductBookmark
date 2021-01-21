@@ -30,6 +30,11 @@ class Bookmark extends AbstractModel implements BookmarkInterface
         return $this->getData(self::PRODUCT_ID);
     }
 
+    public function getWebsiteId()
+    {
+        return $this->getData(self::WEBSITE_ID);
+    }
+
     public function setId($id)
     {
         return $this->setData(self::BOOKMARK_ID, $id);
@@ -43,5 +48,10 @@ class Bookmark extends AbstractModel implements BookmarkInterface
     public function setProductId($productId)
     {
         return $this->setData(self::PRODUCT_ID, $productId);
+    }
+
+    public function setWebsiteId($websiteId)
+    {
+        return $this->setData(self::WEBSITE_ID, $websiteId);
     }
 }
