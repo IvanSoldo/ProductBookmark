@@ -8,7 +8,6 @@ use Magento\Framework\Controller\ResultFactory;
 
 class Index extends Bookmark
 {
-    private $resultPageFactory;
 
     public function execute()
     {

@@ -42,13 +42,10 @@ class Details extends Template
             ->addFilter(BookmarkInterface::WEBSITE_ID, $this->_storeManager->getStore()->getWebsiteId(), 'eq');
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $bookmarks = $this->bookmarkRepository->getList($searchCriteria)->getItems();
-        $products = [];
+        $products = array();
         foreach ($bookmarks as $bookmark) {
-            $products[] = $this->productRepository->getById($bookmark->getProductId());
+            $products += [$bookmark->getId() => $this->productRepository->getById($bookmark->getProductId())];
         }
         return $products;
     }
-
-
-
 }

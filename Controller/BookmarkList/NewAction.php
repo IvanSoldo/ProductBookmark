@@ -43,6 +43,7 @@ class NewAction extends Bookmark
         try {
             $customerId = $this->customerSession->getId();
             $title = $this->_request->getParam('title');
+
             if (empty($title)) {
                 $this->messageManager->addErrorMessage('Title must not be empty!');
                 return $this->redirectToList();

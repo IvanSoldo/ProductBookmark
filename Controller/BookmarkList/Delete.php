@@ -21,36 +21,26 @@ class Delete extends Bookmark
 
     public function execute()
     {
-        $bookmarkList = $this->checkBookmarkList($this->getRequest()->getParam('id'));
-        if (!$bookmarkList) {
+        try {
+            $bookmarkList = $this->bookmarkListRepository->getById($this->getRequest()->getParam('id'));
+        } catch (\Exception $exception) {
+            $this->messageManager->addErrorMessage(__('Something went wrong!'));
             return $this->redirectToList();
         }
+
+        if (!$this->checkOwner($bookmarkList->getCustomerId())) {
+            $this->messageManager->addErrorMessage(__('Something went wrong!'));
+            return $this->redirectToList();
+        }
+
         if ($bookmarkList->getIsDeletable() == 0) {
             $this->messageManager->addErrorMessage(__('Default list cannot be deleted!'));
             return $this->redirectToList();
         }
+
         $this->bookmarkListRepository->delete($bookmarkList);
         $this->messageManager->addSuccessMessage(__('Bookmark List deleted!'));
 
         return $this->redirectToList();
-    }
-
-    private function checkBookmarkList($id)
-    {
-        $bookmarkList = "";
-        try {
-            $customerId = $this->customerSession->getId();
-            $bookmarkList = $this->bookmarkListRepository->getById($id);
-
-            if ($bookmarkList->getCustomerId() !== $customerId) {
-                $this->messageManager->addErrorMessage(__('Something went wrong!'));
-                return false;
-            }
-        } catch (\Exception $exception) {
-            $this->messageManager->addErrorMessage(__('Something went wrong!'));
-            return false;
-        }
-
-        return $bookmarkList;
     }
 }

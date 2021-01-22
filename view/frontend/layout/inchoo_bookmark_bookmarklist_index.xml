@@ -4,8 +4,13 @@
     <update handle="customer_account"/>
     <body>
         <referenceContainer name="content">
-            <block class="Inchoo\ProductBookmark\Block\BookmarkList\BookmarkList" name="bookmark_list"
+            <block class="Magento\Framework\View\Element\Template" name="bookmark_list"
                    template="Inchoo_ProductBookmark::bookmarkList.phtml" cacheable="false">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">
+                        Inchoo\ProductBookmark\ViewModel\BookmarkListViewModel
+                    </argument>
+                </arguments>
             </block>
         </referenceContainer>
     </body>

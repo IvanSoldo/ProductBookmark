@@ -25,6 +25,16 @@ abstract class Bookmark extends Action
         return $this->_redirect('inchoo_bookmark/bookmarklist/index');
     }
 
+    protected function checkOwner($id)
+    {
+        $customerId = $this->customerSession->getId();
+        if ($id !== $customerId) {
+            $this->messageManager->addErrorMessage(__('Something went wrong!'));
+            return false;
+        }
+        return true;
+    }
+
     public function dispatch(RequestInterface $request)
     {
         if (!$this->customerSession->authenticate()) {
