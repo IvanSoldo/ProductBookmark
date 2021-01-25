@@ -39,7 +39,7 @@ class AddDefaultBookmarkList implements ObserverInterface
         $bookmarkList = $this->bookmarkListModelFactory->create();
         $bookmarkList->setBookmarkListTitle("Default");
         $bookmarkList->setIsDeletable(false);
-        $bookmarkList->setCustomerId($customer->getId());
+        $bookmarkList->setCustomerId((int)$customer->getId());
         $this->bookmarkListRepository->save($bookmarkList);
     }
 }
