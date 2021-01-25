@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Inchoo\ProductBookmark\Controller\BookmarkList;
-
 
 use Inchoo\ProductBookmark\Api\BookmarkListRepositoryInterface;
 use Inchoo\ProductBookmark\Api\Data\BookmarkListInterfaceFactory;
@@ -20,20 +20,30 @@ class NewAction extends Bookmark
 
     private $bookmarkListRepository;
 
+    /**
+     * NewAction constructor.
+     * @param Context $context
+     * @param Session $customerSession
+     * @param Validator $validator
+     * @param BookmarkListInterfaceFactory $bookmarkListModelFactory
+     * @param BookmarkListRepositoryInterface $bookmarkListRepository
+     */
     public function __construct(
         Context $context,
         Session $customerSession,
         Validator $validator,
         BookmarkListInterfaceFactory $bookmarkListModelFactory,
         BookmarkListRepositoryInterface $bookmarkListRepository
-    )
-    {
+    ) {
         parent::__construct($context, $customerSession);
         $this->validator = $validator;
         $this->bookmarkListModelFactory = $bookmarkListModelFactory;
         $this->bookmarkListRepository = $bookmarkListRepository;
     }
 
+    /**
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface
+     */
     public function execute()
     {
         if (!$this->validator->validate($this->getRequest())) {
@@ -41,7 +51,7 @@ class NewAction extends Bookmark
         }
 
         try {
-            $customerId = $this->customerSession->getId();
+            $customerId = (int)$this->customerSession->getId();
             $title = $this->_request->getParam('title');
 
             if (empty($title)) {

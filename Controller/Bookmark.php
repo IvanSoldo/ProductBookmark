@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Inchoo\ProductBookmark\Controller;
 
 use Magento\Customer\Model\Session;
@@ -11,23 +13,34 @@ abstract class Bookmark extends Action
 {
     protected $customerSession;
 
+    /**
+     * Bookmark constructor.
+     * @param Context $context
+     * @param Session $customerSession
+     */
     public function __construct(
         Context $context,
         Session $customerSession
-    )
-    {
+    ) {
         $this->customerSession = $customerSession;
         parent::__construct($context);
     }
 
+    /**
+     * @return \Magento\Framework\App\ResponseInterface
+     */
     protected function redirectToList()
     {
         return $this->_redirect('inchoo_bookmark/bookmarklist/index');
     }
 
-    protected function checkOwner($id)
+    /**
+     * @param int $id
+     * @return bool
+     */
+    protected function checkOwner(int $id)
     {
-        $customerId = $this->customerSession->getId();
+        $customerId = (int)$this->customerSession->getId();
         if ($id !== $customerId) {
             $this->messageManager->addErrorMessage(__('Something went wrong!'));
             return false;
@@ -35,6 +48,11 @@ abstract class Bookmark extends Action
         return true;
     }
 
+    /**
+     * @param RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface|null
+     * @throws \Magento\Framework\Exception\NotFoundException
+     */
     public function dispatch(RequestInterface $request)
     {
         if (!$this->customerSession->authenticate()) {

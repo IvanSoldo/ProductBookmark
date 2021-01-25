@@ -4,7 +4,7 @@
  */
 
 ?>
-<?php if (count($block->getBookmarkedProducts()) > 0) : ?>
+<?php if (!empty($block->getBookmarkedProducts())) : ?>
     <table class="table">
         <tbody>
         <tr>
@@ -21,9 +21,9 @@
                         action="<?= $block->escapeUrl($block->getUrl("inchoo_bookmark/bookmark/delete")) ?>"
                         method="post"
                     <?= $block->getBlockHtml('formkey') ?>
-                    <input type="hidden" name="bookmarkId" value="<?=$key?>">
+                    <input type="hidden" name="bookmarkId" value="<?=$block->escapeHtml($key)?>">
                     <button type="submit" class="action submit primary">
-                        <span><?= __('Delete') ?></span>
+                        <span><?=$block->escapeHtml(__('Delete'))?></span>
                     </button>
                     </form>
                 </td>

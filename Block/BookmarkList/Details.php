@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Inchoo\ProductBookmark\Block\BookmarkList;
 
 use Inchoo\ProductBookmark\Api\BookmarkRepositoryInterface;
@@ -20,14 +22,23 @@ class Details extends Template
 
     private $productRepository;
 
+    /**
+     * Details constructor.
+     * @param BookmarkRepositoryInterface $bookmarkRepository
+     * @param Session $session
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param ProductRepositoryInterface $productRepository
+     * @param Template\Context $context
+     * @param array $data
+     */
     public function __construct(
         BookmarkRepositoryInterface $bookmarkRepository,
         Session $session,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         ProductRepositoryInterface $productRepository,
         Template\Context $context,
-        array $data = [])
-    {
+        array $data = []
+    ) {
         $this->bookmarkRepository = $bookmarkRepository;
         $this->session = $session;
         parent::__construct($context, $data);
@@ -35,14 +46,18 @@ class Details extends Template
         $this->productRepository = $productRepository;
     }
 
+    /**
+     * @return array|mixed[]|null
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
     public function getBookmarkedProducts()
     {
         $this->searchCriteriaBuilder
-            ->addFilter(BookmarkInterface::BOOKMARK_LIST_ID, $this->getRequest()->getParam('id'),'eq')
+            ->addFilter(BookmarkInterface::BOOKMARK_LIST_ID, $this->getRequest()->getParam('id'), 'eq')
             ->addFilter(BookmarkInterface::WEBSITE_ID, $this->_storeManager->getStore()->getWebsiteId(), 'eq');
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $bookmarks = $this->bookmarkRepository->getList($searchCriteria)->getItems();
-        $products = array();
+        $products = [];
         foreach ($bookmarks as $bookmark) {
             $products += [$bookmark->getId() => $this->productRepository->getById($bookmark->getProductId())];
         }

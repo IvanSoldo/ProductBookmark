@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Inchoo\ProductBookmark\ViewModel;
-
 
 use Inchoo\ProductBookmark\Api\BookmarkListRepositoryInterface;
 use Inchoo\ProductBookmark\Api\Data\BookmarkListInterface;
@@ -19,29 +19,42 @@ class BookmarkListViewModel implements ArgumentInterface
 
     private $session;
 
+    /**
+     * BookmarkListViewModel constructor.
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param BookmarkListRepositoryInterface $bookmarkListRepository
+     * @param Session $session
+     */
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
         BookmarkListRepositoryInterface $bookmarkListRepository,
-        Session $session)
-    {
+        Session $session
+    ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->bookmarkListRepository = $bookmarkListRepository;
         $this->session = $session;
     }
 
+    /**
+     * @return mixed
+     */
     public function getBookmarkLists()
     {
-        $this->searchCriteriaBuilder->addFilter(BookmarkListInterface::CUSTOMER_ID, $this->session->getCustomerId(),'eq');
+        $this->searchCriteriaBuilder
+            ->addFilter(BookmarkListInterface::CUSTOMER_ID, $this->session->getCustomerId(), 'eq');
         $searchCriteria = $this->searchCriteriaBuilder->create();
 
         return $this->bookmarkListRepository->getList($searchCriteria)->getItems();
     }
 
-    public function isLoggedIn() {
+    /**
+     * @return bool
+     */
+    public function isLoggedIn()
+    {
         if ($this->session->getCustomerId()) {
             return true;
         }
         return false;
     }
-
 }

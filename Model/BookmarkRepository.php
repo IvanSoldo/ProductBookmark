@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Inchoo\ProductBookmark\Model;
 
 use Inchoo\ProductBookmark\Api\BookmarkRepositoryInterface;
 use Inchoo\ProductBookmark\Api\Data\BookmarkInterface;
+use Inchoo\ProductBookmark\Api\Data\BookmarkInterfaceFactory;
 use Inchoo\ProductBookmark\Api\Data\BookmarkSearchResultsInterface;
+use Inchoo\ProductBookmark\Api\Data\BookmarkSearchResultsInterfaceFactory;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
@@ -15,7 +19,7 @@ class BookmarkRepository implements BookmarkRepositoryInterface
 {
 
     /**
-     * @var \Inchoo\ProductBookmark\Api\Data\BookmarkInterfaceFactory
+     * @var BookmarkInterfaceFactory
      */
     protected $bookmarkModelFactory;
 
@@ -30,7 +34,7 @@ class BookmarkRepository implements BookmarkRepositoryInterface
     protected $bookmarkCollectionFactory;
 
     /**
-     * @var \Inchoo\ProductBookmark\Api\Data\BookmarkSearchResultsInterfaceFactory
+     * @var BookmarkSearchResultsInterfaceFactory
      */
     protected $searchResultFactory;
 
@@ -39,14 +43,21 @@ class BookmarkRepository implements BookmarkRepositoryInterface
      */
     private $collectionProcessor;
 
+    /**
+     * BookmarkRepository constructor.
+     * @param BookmarkInterfaceFactory $bookmarkModelFactory
+     * @param ResourceModel\Bookmark $bookmarkResource
+     * @param ResourceModel\Bookmark\CollectionFactory $bookmarkCollectionFactory
+     * @param BookmarkSearchResultsInterfaceFactory $searchResultFactory
+     * @param CollectionProcessorInterface $collectionProcessor
+     */
     public function __construct(
-        \Inchoo\ProductBookmark\Api\Data\BookmarkInterfaceFactory $bookmarkModelFactory,
-        \Inchoo\ProductBookmark\Model\ResourceModel\Bookmark $bookmarkResource,
-        \Inchoo\ProductBookmark\Model\ResourceModel\Bookmark\CollectionFactory $bookmarkCollectionFactory,
-        \Inchoo\ProductBookmark\Api\Data\BookmarkSearchResultsInterfaceFactory $searchResultFactory,
+        BookmarkInterfaceFactory $bookmarkModelFactory,
+        ResourceModel\Bookmark $bookmarkResource,
+        ResourceModel\Bookmark\CollectionFactory $bookmarkCollectionFactory,
+        BookmarkSearchResultsInterfaceFactory $searchResultFactory,
         CollectionProcessorInterface $collectionProcessor
-    )
-    {
+    ) {
         $this->bookmarkModelFactory = $bookmarkModelFactory;
         $this->bookmarkResource = $bookmarkResource;
         $this->bookmarkCollectionFactory = $bookmarkCollectionFactory;
@@ -54,7 +65,12 @@ class BookmarkRepository implements BookmarkRepositoryInterface
         $this->collectionProcessor = $collectionProcessor;
     }
 
-    public function getById($bookmarkId)
+    /**
+     * @param int $bookmarkId
+     * @return BookmarkInterface|mixed
+     * @throws NoSuchEntityException
+     */
+    public function getById(int $bookmarkId)
     {
         $bookmark = $this->bookmarkModelFactory->create();
         $this->bookmarkResource->load($bookmark, $bookmarkId);
@@ -64,6 +80,11 @@ class BookmarkRepository implements BookmarkRepositoryInterface
         return $bookmark;
     }
 
+    /**
+     * @param BookmarkInterface $bookmark
+     * @return BookmarkInterface|mixed
+     * @throws CouldNotSaveException
+     */
     public function save(BookmarkInterface $bookmark)
     {
         try {
@@ -74,6 +95,11 @@ class BookmarkRepository implements BookmarkRepositoryInterface
         return $bookmark;
     }
 
+    /**
+     * @param BookmarkInterface $bookmark
+     * @return bool|mixed
+     * @throws CouldNotDeleteException
+     */
     public function delete(BookmarkInterface $bookmark)
     {
         try {
@@ -84,12 +110,14 @@ class BookmarkRepository implements BookmarkRepositoryInterface
         return true;
     }
 
+    /**
+     * @param SearchCriteriaInterface $searchCriteria
+     * @return BookmarkSearchResultsInterface|mixed
+     */
     public function getList(SearchCriteriaInterface $searchCriteria)
     {
-        /** @var \Inchoo\ProductBookmark\Model\ResourceModel\Bookmark\Collection $collection */
         $collection = $this->bookmarkCollectionFactory->create();
         $this->collectionProcessor->process($searchCriteria, $collection);
-        /** @var BookmarkSearchResultsInterface $searchResults */
         $searchResults = $this->searchResultFactory->create();
         $searchResults->setSearchCriteria($searchCriteria);
         $searchResults->setItems($collection->getItems());

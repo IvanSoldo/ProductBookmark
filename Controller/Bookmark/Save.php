@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Inchoo\ProductBookmark\Controller\Bookmark;
-
 
 use Inchoo\ProductBookmark\Api\BookmarkListRepositoryInterface;
 use Inchoo\ProductBookmark\Api\BookmarkRepositoryInterface;
@@ -27,11 +27,20 @@ class Save extends Bookmark
     private $validator;
 
     private $searchCriteriaBuilder;
-    /**
-     * @var BookmarkListRepositoryInterface
-     */
+
     private $bookmarkListRepository;
 
+    /**
+     * Save constructor.
+     * @param Context $context
+     * @param Session $customerSession
+     * @param BookmarkRepositoryInterface $bookmarkRepository
+     * @param BookmarkInterfaceFactory $bookmarkModelFactory
+     * @param StoreManagerInterface $storeManager
+     * @param Validator $validator
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param BookmarkListRepositoryInterface $bookmarkListRepository
+     */
     public function __construct(
         Context $context,
         Session $customerSession,
@@ -41,8 +50,7 @@ class Save extends Bookmark
         Validator $validator,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         BookmarkListRepositoryInterface $bookmarkListRepository
-    )
-    {
+    ) {
         parent::__construct($context, $customerSession);
         $this->bookmarkRepository = $bookmarkRepository;
         $this->bookmarkModelFactory = $bookmarkModelFactory;
@@ -52,15 +60,19 @@ class Save extends Bookmark
         $this->bookmarkListRepository = $bookmarkListRepository;
     }
 
+    /**
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
     public function execute()
     {
         if (!$this->validator->validate($this->getRequest())) {
             return $this->redirectToList();
         }
 
-        $bookmarkListId = $this->getRequest()->getParam('bookmarkList');
-        $productId = $this->getRequest()->getParam('product');
-        $websiteId = $this->storeManager->getStore()->getWebsiteId();
+        $bookmarkListId = (int)$this->getRequest()->getParam('bookmarkList');
+        $productId = (int)$this->getRequest()->getParam('product');
+        $websiteId = (int)$this->storeManager->getStore()->getWebsiteId();
 
         try {
             $bookmarkList = $this->bookmarkListRepository->getById($bookmarkListId);
@@ -79,7 +91,7 @@ class Save extends Bookmark
             return $this->redirectToList();
         }
 
-        if (!$this->checkOwner($bookmarkList->getCustomerId())) {
+        if (!$this->checkOwner((int)$bookmarkList->getCustomerId())) {
             $this->messageManager->addErrorMessage(__('Product could not be bookmarked!'));
             return $this->redirectToList();
         }
@@ -95,16 +107,23 @@ class Save extends Bookmark
         return $this->redirectToList();
     }
 
-    private function checkBookmark($bookmark){
+    /**
+     * Checks if product is already bookmarked.
+     *
+     * @param BookmarkInterface $bookmark
+     * @return bool
+     */
+    private function checkBookmark(BookmarkInterface $bookmark)
+    {
         $this->searchCriteriaBuilder
             ->addFilter(BookmarkInterface::PRODUCT_ID, $bookmark->getProductId(), 'eq')
             ->addFilter(BookmarkInterface::WEBSITE_ID, $bookmark->getWebsiteId(), 'eq')
             ->addFilter(BookmarkInterface::BOOKMARK_LIST_ID, $bookmark->getBookmarkListId(), 'eq');
         $searchCriteria = $this->searchCriteriaBuilder->create();
 
-        if (count($this->bookmarkRepository->getList($searchCriteria)->getItems()) > 0) {
-            return false;
+        if (empty($this->bookmarkRepository->getList($searchCriteria)->getItems())) {
+            return true;
         }
-        return true;
+        return false;
     }
 }

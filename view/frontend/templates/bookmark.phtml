@@ -11,7 +11,7 @@ $bookmarkLists = $viewModel->getBookmarkLists();
     <br>
     <select name="bookmarkList" data-toggle="dropdown">
         <?php foreach ($bookmarkLists as $bookmarkList) : ?>
-            <option value="<?=$bookmarkList->getId()?>"><?=$block->escapeHtml($bookmarkList->getBookmarkListTitle())?></option>
+            <option value="<?=$block->escapeHtml($bookmarkList->getId())?>"><?=$block->escapeHtml($bookmarkList->getBookmarkListTitle())?></option>
         <?php endforeach; ?>
     </select>
     <br>

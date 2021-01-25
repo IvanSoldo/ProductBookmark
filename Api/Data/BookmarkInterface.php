@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Inchoo\ProductBookmark\Api\Data;
-
 
 interface BookmarkInterface
 {
@@ -12,45 +10,46 @@ interface BookmarkInterface
     const WEBSITE_ID = 'website_id';
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId();
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getBookmarkListId();
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getProductId();
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getWebsiteId();
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function setId($id);
 
     /**
-     * @param $bookmarkListId
+     * @param int $id
      * @return mixed
      */
-    public function setBookmarkListId($bookmarkListId);
+    public function setId(int $id);
 
     /**
-     * @param $productId
+     * @param int $bookmarkListId
      * @return mixed
      */
-    public function setProductId($productId);
+    public function setBookmarkListId(int $bookmarkListId);
 
     /**
-     * @param $websiteId
+     * @param int $productId
      * @return mixed
      */
-    public function setWebsiteId($websiteId);
+    public function setProductId(int $productId);
+
+    /**
+     * @param int $websiteId
+     * @return mixed
+     */
+    public function setWebsiteId(int $websiteId);
 }

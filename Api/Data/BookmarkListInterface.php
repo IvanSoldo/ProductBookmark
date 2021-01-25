@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Inchoo\ProductBookmark\Api\Data;
-
 
 interface BookmarkListInterface
 {
@@ -26,32 +24,32 @@ interface BookmarkListInterface
      */
     public function getCustomerId();
 
-
     /**
      * @return mixed
      */
     public function getIsDeletable();
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function setId($id);
 
     /**
-     * @param $title
+     * @param int $id
      * @return mixed
      */
-    public function setBookmarkListTitle($title);
+    public function setId(int $id);
 
     /**
-     * @param $customerId
+     * @param string $title
      * @return mixed
      */
-    public function setCustomerId($customerId);
+    public function setBookmarkListTitle(string $title);
 
     /**
-     * @param $isDeletable
+     * @param int $customerId
      * @return mixed
      */
-    public function setIsDeletable($isDeletable);
+    public function setCustomerId(int $customerId);
+
+    /**
+     * @param bool $isDeletable
+     * @return mixed
+     */
+    public function setIsDeletable(bool $isDeletable);
 }

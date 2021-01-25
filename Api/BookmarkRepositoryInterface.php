@@ -9,10 +9,10 @@ interface BookmarkRepositoryInterface
 {
 
     /**
-     * @param $bookmarkId
+     * @param int $bookmarkId
      * @return mixed
      */
-    public function getById($bookmarkId);
+    public function getById(int $bookmarkId);
 
     /**
      * @param BookmarkInterface $bookmark

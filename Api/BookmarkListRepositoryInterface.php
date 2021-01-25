@@ -9,10 +9,10 @@ interface BookmarkListRepositoryInterface
 {
 
     /**
-     * @param $bookmarkListId
+     * @param int $bookmarkListId
      * @return mixed
      */
-    public function getById($bookmarkListId);
+    public function getById(int $bookmarkListId);
 
     /**
      * @param BookmarkListInterface $bookmarkList
